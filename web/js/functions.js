@@ -1,67 +1,71 @@
-/**
- * Funciones Javascript: functions.js 
- * @description: Controla las acciones del sistema web, requiere jquery
- * @author Rodrigo Contreras B. <rodrigo.rcb@gmail.com>  
- * @version 2016-03-03 - Version Inicial
- * @since 2015-03-03
- */
-
-// API Servidor
 var API_URL = 'http://localhost/codeigniter/index.php';
-//var API_URL = 'http://192.168.1.34/codeigniter/index.php';
 
-// API Servicios
 var API_NOTICIAS = API_URL + '/posts/listarposts/2';
 var API_FUNCIONARIOS = API_URL + '/posts/listarposts/3';
 var API_RESIDENTES = API_URL + '/posts/listarposts/4';
 var API_COMUNIDAD = API_URL + '/posts/listarposts/5';
 var API_ACERCA = API_URL + '/posts/listarposts/6';
-
-// API Comunidad
 var API_COMUNIDADES = API_URL + '/comunidad/listarcomunidades';
-
-// SESSION
 var API_SESSION = API_URL + '/comunidad/validasession';
 var API_CERRAR_SESSION = API_URL + '/comunidad/cerrarsession';
 
-
-// Llamados de Funciones -------------------------------------------------------
 validaSession();
 
-
-/* Llamados Automaticos */
 if (idPagina == 'home') {
     getContenidoTab1('#contenido1');
-
-    // Listeners Tabs
     clickTab1('#tab_1', '#contenido1');
     clickTab2('#tab_2', '#contenido2');
     clickTab3('#tab_3', '#contenido3');
     clickTab4('#tab_4', '#contenido4');
     clickTab5('#tab_5', '#contenido5');
-
-    // Listener Laterales
     clickLat1('#lat_1', '#contenido6');
     clickLat3('#lat_3');
-
-    // Listeners Botones Superiores
     clickBtnRecargar('#btn_recargar');
 }
 
 if (idPagina == 'login') {
     getComunidades();
+    validaFormIngreso();
 }
 
 
-// Listeners Tabs --------------------------------------------------------------
+function validaFormIngreso() {
+
+    $("form").submit(function (event) {
+
+        f_comunidad = $('#l_comunidades').val();
+        f_usuario = $('#usuario').val();
+        f_password = $('#password').val();
+        f_error = 0;
+        f_msg = 'Estimado usuario, se han detectado los siguientes problemas:\n';
+
+        if (f_comunidad == null) {
+            f_error = 1;
+            f_msg = f_msg + '- Debe Seleccionar una comunidad\n';
+        }
+        if (f_usuario == '') {
+            f_error = 1;
+            f_msg = f_msg + '- Debe Ingresar un usuario\n';
+        }
+        if (f_password == '') {
+            f_error = 1;
+            f_msg = f_msg + '- Debe ingresar password';
+        }
+
+        if (f_error == 1) {
+            alert(f_msg);
+            event.preventDefault();
+        }
+
+    });
+
+}
 
 function validaSession() {
 
     var URL_SERVICIO = API_SESSION;
-
     $.getJSON(URL_SERVICIO, function (data) {
         if (data == '0') {
-
             if (idPagina == 'home') {
                 alert('Estimado Usuario\nNo existe Session activa, será redirigido al login');
                 window.location = 'index.html';
@@ -75,7 +79,6 @@ function validaSession() {
 
 }
 
-/* clickTab1 */
 function clickTab1(id, container) {
     $(id).click(function () {
         clearTabs();
@@ -83,7 +86,6 @@ function clickTab1(id, container) {
     });
 }
 
-/* clickTab2 */
 function clickTab2(id, container) {
     $(id).click(function () {
         clearTabs();
@@ -91,7 +93,6 @@ function clickTab2(id, container) {
     });
 }
 
-/* clickTab3 */
 function clickTab3(id, container) {
     $(id).click(function () {
         clearTabs();
@@ -99,7 +100,6 @@ function clickTab3(id, container) {
     });
 }
 
-/* clickTab4 */
 function clickTab4(id, container) {
     $(id).click(function () {
         clearTabs();
@@ -107,7 +107,6 @@ function clickTab4(id, container) {
     });
 }
 
-/* clickTab5 */
 function clickTab5(id, container) {
     $(id).click(function () {
         clearTabs();
@@ -115,7 +114,6 @@ function clickTab5(id, container) {
     });
 }
 
-// Listeners Botones -----------------------------------------------------------
 function clickBtnRecargar(id) {
     $(id).click(function () {
         clearTabs();
@@ -138,7 +136,6 @@ function clickLat3(id) {
         $.getJSON(URL_SERVICIO, function (data) {
 
             if (data == 1) {
-                // Redireccionando a home
                 alert('Session de Usuario Borrada\nSerá redirigido al Login de Acceso');
                 window.location = 'index.html';
             }
@@ -146,35 +143,24 @@ function clickLat3(id) {
     });
 }
 
-
-// Funciones Generales ---------------------------------------------------------
-
-/* Ajusta las imagenes ancho al 100%, y les quita el link */
 function ajustaImagenesNoticias() {
 
     $(".collapsible-body img").css("width", '100%');
     $(".collapsible-body img").css("height", '100%');
     $(".collapsible-body img").parent().removeAttr('href');
-
-    // Imagenes
-    //$(".collapsible-body img").attr('width','650');
-    //$(".collapsible-body img").addClass('materialboxed');
 }
 
 
-/* Clean Tabs */
 function clearTabs() {
     $('.tabs_central').css('display', 'none');
     $('.button-collapse').sideNav('hide');
 }
 
-/* MuestraTab */
 function muestraTab(container) {
     $(container).css('display', 'block');
     $(container).css('opacity', '1');
 }
 
-/* GetMeta */
 function getMeta(data, key) {
     var salida = '';
     for (var i = 0; i < data.length; i++) {
@@ -187,7 +173,6 @@ function getMeta(data, key) {
     return salida;
 }
 
-/* SetCargando */
 function setCargando() {
     salida = '';
     salida = salida + '<div class="row" style="margin-top: 100px; text-align: center; margin-bottom: 100px;">';
@@ -203,13 +188,8 @@ function setCargando() {
     return salida;
 }
 
-
-// Contenidos ------------------------------------------------------------------
-
-/* getContenidoLat1 */
 function getContenidoLat1(container) {
 
-    // SetCargando
     var cargando = setCargando();
     $(container).html(cargando);
 
@@ -225,33 +205,21 @@ function getContenidoLat1(container) {
             salida = salida + '<div class="collapsible-header"><i class="material-icons">filter_drama</i><span class="title" style="font-weight: bold;">' + data[key].post_title + '</span></div>';
             salida = salida + '<div class="collapsible-body" style="padding: 20px">' + data[key].post_content + '</div>';
             salida = salida + '</li>';
-
         });
         salida = salida + '</ul>';
-
-        // Asigna Salida
         $(container).html(salida);
-
-        // Ajusta Imagenes de Noticias
         ajustaImagenesNoticias();
-
         Materialize.fadeInImage(container);
-
-        // Efecto de transicion
         $('.collapsible').collapsible({accordion: false});
-
     });
     muestraTab(container);
 
 }
 
-/* getContenidoTab1 */
 function getContenidoTab1(container) {
 
-    // SetCargando
     var cargando = setCargando();
     $(container).html(cargando);
-
     var URL_SERVICIO = API_NOTICIAS;
 
     $.getJSON(URL_SERVICIO, function (data) {
@@ -265,33 +233,19 @@ function getContenidoTab1(container) {
             salida = salida + '</li>';
         });
         salida = salida + '</ul>';
-
-        //Replace
         salida = salida.replace(/&nbsp;/g, '<br />');
-
-        // Asigna Salida
         $(container).html(salida);
-
-        // Ajusta Imagenes de Noticias
         ajustaImagenesNoticias();
-
         Materialize.fadeInImage(container);
-
-        // Efecto de transicion
         $('.collapsible').collapsible({accordion: false});
-
     });
 }
 
-/* getContenidoTab2 */
 function getContenidoTab2(container) {
 
-    // SetCargando
     var cargando = setCargando();
     $(container).html(cargando);
-
     var URL_SERVICIO = API_FUNCIONARIOS;
-
     $.getJSON(URL_SERVICIO, function (data) {
         salida = "";
         salida = salida + '<div class="row">';
@@ -308,19 +262,15 @@ function getContenidoTab2(container) {
         });
         salida = salida + '</ul>';
         salida = salida + '</div>';
-
         $(container).html(salida);
         Materialize.fadeInImage(container);
     });
 }
 
-/* getContenidoTab3 */
 function getContenidoTab3(container) {
 
-    // SetCargando
     var cargando = setCargando();
     $(container).html(cargando);
-
     var URL_SERVICIO = API_RESIDENTES;
 
     $.getJSON(URL_SERVICIO, function (data) {
@@ -339,21 +289,16 @@ function getContenidoTab3(container) {
         });
         salida = salida + '</ul>';
         salida = salida + '</div>';
-
         $(container).html(salida);
         Materialize.fadeInImage(container);
     });
 }
 
-/* getContenidoTab4 */
 function getContenidoTab4(container) {
 
-    // SetCargando
     var cargando = setCargando();
     $(container).html(cargando);
-
     var URL_SERVICIO = API_COMUNIDAD;
-
     $.getJSON(URL_SERVICIO, function (data) {
         salida = "";
         salida = salida + '<div class="row">';
@@ -373,26 +318,20 @@ function getContenidoTab4(container) {
         });
         salida = salida + '</ul>';
         salida = salida + '</div>';
-
         $(container).html(salida);
         Materialize.fadeInImage(container);
     });
 }
 
-/* getContenidoTab5 */
 function getContenidoTab5(container) {
 
-    // SetCargando
     var cargando = setCargando();
     $(container).html(cargando);
-
     var URL_SERVICIO = API_ACERCA;
-
     $.getJSON(URL_SERVICIO, function (data) {
         salida = "";
         salida = salida + '<div class="row">';
         salida = salida + '<ul class="collection">';
-
         $.each(data, function (key, val) {
             salida = salida + '<li class="collection-item avatar">';
             salida = salida + '<img src="http://publicdomainvectors.org/photos/buildings2-icon-64x64.png" alt="" class="circle">';
@@ -404,13 +343,11 @@ function getContenidoTab5(container) {
         });
         salida = salida + '</ul>';
         salida = salida + '</div>';
-
         $(container).html(salida);
         Materialize.fadeInImage(container);
     });
 }
 
-/* getComunidades */
 function getComunidades() {
 
     var URL_SERVICIO = API_COMUNIDADES;
@@ -421,8 +358,6 @@ function getComunidades() {
         $.each(data, function (key, val) {
             salida = salida + '<option value="' + data[key].id + '">' + data[key].nombre + '</option>';
         });
-
-        // Salida & Despliegue
         $('#l_comunidades').html(salida);
         $('select').material_select();
     });
