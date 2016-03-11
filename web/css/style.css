@@ -1,0 +1,97 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.nav-wrapper a.brand-logo {
+    margin-top: 4px;
+}
+
+body {
+    background-color: #F2F2F2;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+}
+
+.tabs .tab a {
+    color: #c41325;
+}
+
+nav {
+    background-color: #c41325;
+}
+
+.opciones {
+    color: white;
+    background-color: rgb(46, 50, 64);
+}
+
+
+/* Solo Celular ------------------------------------------------------------- */
+@media (max-width:600px) {
+
+    .tabs_sitio {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    ul.collapsible, ul.collection {
+        margin-top: 0px;
+        margin-left: -21px;
+        margin-right: -21px;
+    }
+
+}
+
+
+/* Mayores que Celular ------------------------------------------------------ */
+@media (min-width:601px) {
+
+    .button-collapse {
+        display: inline !important;
+    }
+
+    ul.tabs {
+        display: initial !important;
+    }
+
+    .tabs li {
+        width: 100% !important;
+        float: left !important;
+        text-align: left !important;
+        margin-left: 20px !important;
+
+    }
+
+    .tabs_sitio {
+        margin-top: 15px !important;
+    }
+
+    .indicator {
+        display: none;
+    }
+
+    .nav-wrapper a.brand-logo {
+        margin-left: 30px;
+    }
+
+}
+
+
+/* Solo Desktop ------------------------------------------------------------- */
+@media (min-width:992px) {
+
+
+
+}
+
+
+
+
+
