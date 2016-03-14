@@ -1,11 +1,11 @@
-// API_General
+// Funciones
+// API -------------------------------------------------------------------------
 
-//var API_URL = 'http://localhost/codeigniter/index.php';
+var API_URL = 'http://localhost/codeigniter/index.php';
 //var API_URL = 'http://192.168.0.11/codeigniter/index.php';
-var API_URL = 'http://192.168.1.34/codeigniter/index.php';
+//var API_URL = 'http://192.168.1.34/codeigniter/index.php';
 
 // API_Botones
-
 var API_NOTICIAS = API_URL + '/posts/listarposts/2';
 var API_FUNCIONARIOS = API_URL + '/posts/listarposts/3';
 var API_RESIDENTES = API_URL + '/posts/listarposts/4';
@@ -17,8 +17,12 @@ var API_COMUNIDADES = API_URL + '/comunidad/listarcomunidades';
 var API_SESSION = API_URL + '/comunidad/validasession';
 var API_CERRAR_SESSION = API_URL + '/comunidad/cerrarsession';
 
+
+// Llamados de funciones -------------------------------------------------------
+// Llamados Automaticos
 validaSession();
 
+// Llamados por paginas
 if (idPagina == 'home') {
     getContenidoTab1('#contenido1');
     clickTab1('#tab_1', '#contenido1');
@@ -36,7 +40,7 @@ if (idPagina == 'login') {
     validaFormIngreso();
 }
 
-
+// Funciones -------------------------------------------------------------------
 function validaFormIngreso() {
 
     $("form").submit(function (event) {
@@ -63,46 +67,30 @@ function validaFormIngreso() {
         if (f_error == 1) {
             alert(f_msg);
             event.preventDefault();
-        } 
-
+        }
     });
-
 }
 
 function validaSession() {
 
-
     var URL_SERVICIO = API_SESSION;
     $.getJSON(URL_SERVICIO, function (data) {
-        
-        console.log(data['status']);
-           
-        /*$.each(data, function (key, val) {
-            //console.log(data[key]);c
-            //console.log(data['status']);
-        });*/
-        
-        
+
         if (data['status'] == '0') {
             if (idPagina == 'home') {
                 alert('Estimado Usuario\nNo existe Session activa, será redirigido al login');
                 window.location = 'index.html';
             }
-            
-            
+
         } else {
             if (idPagina == 'login') {
                 window.location = 'home.html';
             }
-            
+
             $('.info_comunidad').html(data['comunidad']['nombre']);
             $('.info_user').html('Usuario: ' + data['usuario']['display_name']);
-           
         }
     });
-    
-    
-
 }
 
 function clickTab1(id, container) {
@@ -175,7 +163,6 @@ function ajustaImagenesNoticias() {
     $(".collapsible-body img").css("height", '100%');
     $(".collapsible-body img").parent().removeAttr('href');
 }
-
 
 function clearTabs() {
     $('.tabs_central').css('display', 'none');
@@ -388,3 +375,5 @@ function getComunidades() {
         $('select').material_select();
     });
 }
+
+// FIN -------------------------------------------------------------------------
