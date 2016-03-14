@@ -27,8 +27,8 @@ class Conn_model extends CI_Model {
      */
     function Conexion() {
 
-        //$link = mysqli_connect("localhost", "root", "", "wordpress");
-        $link = mysqli_connect("localhost", "root", "zxcvbn", "wordpress");
+        $link = mysqli_connect("localhost", "root", "", "wordpress");
+        //$link = mysqli_connect("localhost", "root", "zxcvbn", "wordpress");
         mysqli_select_db($link, 'wordpress');
         return $link;
     }
@@ -42,8 +42,8 @@ class Conn_model extends CI_Model {
      * @since 2016-03-07
      */
     function ConexionComunidad() {
-        //$link = mysqli_connect("localhost", "root", "", "micomunidad");
-        $link = mysqli_connect("localhost", "root", "zxcvbn", "micomunidad");
+        $link = mysqli_connect("localhost", "root", "", "micomunidad");
+        //$link = mysqli_connect("localhost", "root", "zxcvbn", "micomunidad");
         mysqli_select_db($link, 'tb_comunidad');
         return $link;
     }
