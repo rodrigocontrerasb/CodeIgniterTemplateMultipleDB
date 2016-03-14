@@ -32,9 +32,17 @@ nav {
     background-color: rgb(46, 50, 64);
 }
 
+.info_comunidad {
+    background-color: rgba(228, 228, 228, 0.27);
+    color:#F2F2F2;
+}
 
 /* Solo Celular ------------------------------------------------------------- */
 @media (max-width:600px) {
+    
+    .info_comunidad {
+        display: none;
+    }
 
     .tabs_sitio {
         padding-left: 0px !important;
@@ -52,6 +60,10 @@ nav {
 
 /* Mayores que Celular ------------------------------------------------------ */
 @media (min-width:601px) {
+    
+    .right .info_user {
+        display: none;
+    }
 
     .button-collapse {
         display: inline !important;
@@ -87,6 +99,7 @@ nav {
 /* Solo Desktop ------------------------------------------------------------- */
 @media (min-width:992px) {
 
+    
 
 
 }

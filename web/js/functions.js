@@ -1,4 +1,10 @@
-var API_URL = 'http://localhost/codeigniter/index.php';
+// API_General
+
+//var API_URL = 'http://localhost/codeigniter/index.php';
+//var API_URL = 'http://192.168.0.11/codeigniter/index.php';
+var API_URL = 'http://192.168.1.34/codeigniter/index.php';
+
+// API_Botones
 
 var API_NOTICIAS = API_URL + '/posts/listarposts/2';
 var API_FUNCIONARIOS = API_URL + '/posts/listarposts/3';
@@ -6,6 +12,8 @@ var API_RESIDENTES = API_URL + '/posts/listarposts/4';
 var API_COMUNIDAD = API_URL + '/posts/listarposts/5';
 var API_ACERCA = API_URL + '/posts/listarposts/6';
 var API_COMUNIDADES = API_URL + '/comunidad/listarcomunidades';
+
+// API_Secundarias
 var API_SESSION = API_URL + '/comunidad/validasession';
 var API_CERRAR_SESSION = API_URL + '/comunidad/cerrarsession';
 
@@ -55,7 +63,7 @@ function validaFormIngreso() {
         if (f_error == 1) {
             alert(f_msg);
             event.preventDefault();
-        }
+        } 
 
     });
 
@@ -63,19 +71,37 @@ function validaFormIngreso() {
 
 function validaSession() {
 
+
     var URL_SERVICIO = API_SESSION;
     $.getJSON(URL_SERVICIO, function (data) {
-        if (data == '0') {
+        
+        console.log(data['status']);
+           
+        /*$.each(data, function (key, val) {
+            //console.log(data[key]);c
+            //console.log(data['status']);
+        });*/
+        
+        
+        if (data['status'] == '0') {
             if (idPagina == 'home') {
                 alert('Estimado Usuario\nNo existe Session activa, será redirigido al login');
                 window.location = 'index.html';
             }
+            
+            
         } else {
             if (idPagina == 'login') {
                 window.location = 'home.html';
             }
+            
+            $('.info_comunidad').html(data['comunidad']['nombre']);
+            $('.info_user').html('Usuario: ' + data['usuario']['display_name']);
+           
         }
     });
+    
+    
 
 }
 
@@ -283,7 +309,7 @@ function getContenidoTab3(container) {
             salida = salida + '<img src="http://peinadosparahombres.net/wp-content/uploads/2014/08/Peinados-para-Hombres-de-Cara-Larga-5-204x300.jpg" alt="" class="circle">';
             salida = salida + '<span class="title" style="font-weight: bold;">' + data[key].post_title + '</span>';
             salida = salida + '<p><strong>Nombre:</strong> ' + getMeta(data[key].meta, 'nombre') + ' ' + getMeta(data[key].meta, 'apellido') + ' <br><strong>Email:</strong> <a href="mailto:' + getMeta(data[key].meta, 'email') + '">' + getMeta(data[key].meta, 'email') + '</a></p>';
-            salida = salida + '<p><strong>Cargo:</strong> ' + getMeta(data[key].meta, 'cargo') + ' <br><strong>Detalle:</strong> ' + getMeta(data[key].meta, 'detalle') + '</p>';
+            salida = salida + '<p><strong>Fono:</strong> ' + getMeta(data[key].meta, 'fono_movil') + ' <br><strong>Depto:</strong> ' + getMeta(data[key].meta, 'depto') + '</p>';
             salida = salida + '<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>';
             salida = salida + '</li>';
         });

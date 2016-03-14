@@ -89,7 +89,7 @@ class Usuario_model extends CI_Model {
 
         try {
             if (isset($row['user_email'])) {
-                $usuario->setUser_email(utf8_encode($row['user_nicename']));
+                $usuario->setUser_email(utf8_encode($row['user_email']));
             }
         } catch (Exception $ex) {
             

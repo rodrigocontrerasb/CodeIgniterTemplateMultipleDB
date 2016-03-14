@@ -8,12 +8,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Objetivo: Disponibilizar los llamados de funciones en el controlador
  * @author Rodrigo Contreras B. <rodrigo.rcb@gmail.com>
  * @version 2016-03-07
+ * @version 2016-03-13 - Actualiza estatus json en response login
  * @since 2016-03-07
  */
 class Comunidad extends CI_Controller {
 
     /**
-     * Funcion: index   
+     * Funcion: index  
      * Descripcion: Genera el home del controlador
      * @param --
      * @return view
@@ -116,6 +117,13 @@ class Comunidad extends CI_Controller {
             $_SESSION['usuario'] = $usuario;
 
 
+            // Sesion Usuario
+            $_SESSION['usr']['id'] = $usuario->id;
+            $_SESSION['usr']['display_name'] = $usuario->display_name;
+            $_SESSION['usr']['user_email'] = $usuario->user_email;
+
+
+            // Session Comunidad
             $_SESSION['com']['id'] = $comunidad->getId();
             $_SESSION['com']['nombre'] = $comunidad->getNombre();
             $_SESSION['com']['server'] = $comunidad->getServer();
@@ -124,13 +132,20 @@ class Comunidad extends CI_Controller {
             $_SESSION['com']['pass'] = $comunidad->getPass();
             $_SESSION['com']['id_estado'] = $comunidad->getId_estado();
 
-
-
             // Redirect a la Pagina principal de la comunidad
             header("Location: ../../web/index.html");
+
+            //$data['posts']['status'] = 1;
+            //$data['posts']['msg'] = 'Usuario Correctamente Validado';
         } else {
             echo 'Datos de usuario incorrectos';
+            //$data['posts']['status'] = 0;
+            //$data['posts']['msg'] = 'Datos de usuario incorrectos';
         }
+
+
+        // Vista
+        //$this->load->view('posts/listarposts', $data);
     }
 
     /**
@@ -146,11 +161,24 @@ class Comunidad extends CI_Controller {
     public function validasession() {
 
         session_start();
+
+
         if (isset($_SESSION['usuario'])) {
-            echo '1';
+            //echo '1';
+
+            $data['posts']['status'] = 1;
+            $data['posts']['usuario']['id'] = $_SESSION['usr']['id'];
+            $data['posts']['usuario']['display_name'] = $_SESSION['usr']['display_name'];
+            $data['posts']['usuario']['user_email'] = $_SESSION['usr']['user_email'];
+            $data['posts']['comunidad']['nombre'] = $_SESSION['com']['nombre'];
         } else {
-            echo '0';
+            //echo '0';
+
+            $data['posts']['status'] = 0;
         }
+
+        // Vista
+        $this->load->view('posts/listarposts', $data);
     }
 
     /**
